@@ -4,10 +4,7 @@ import com.alibaba.excel.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.madou.geapi.annotation.AuthCheck;
-import com.madou.geapi.common.BaseResponse;
-import com.madou.geapi.common.DeleteRequest;
-import com.madou.geapi.common.ErrorCode;
-import com.madou.geapi.common.ResultUtils;
+import com.madou.geapi.common.*;
 import com.madou.geapi.constant.CommonConstant;
 import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoAddRequest;
@@ -15,8 +12,10 @@ import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.madou.geapi.model.entity.InterfaceInfo;
 import com.madou.geapi.model.entity.User;
+import com.madou.geapi.model.enums.InterfaceInfoStatusEnum;
 import com.madou.geapi.service.InterfaceInfoService;
 import com.madou.geapi.service.UserService;
+import com.madou.geapiclientsdk.client.GeapiClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +41,8 @@ public class InterfaceInfoController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private GeapiClient geapiClient;
 
     // region 增删改查
 
@@ -197,6 +198,71 @@ public class InterfaceInfoController {
         return ResultUtils.success(interfaceInfoPage);
     }
 
+    /**
+     * 上线接口(管理员可用)
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+
+    @AuthCheck(mustRole = "admin")
+    @PostMapping("/online")
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                     HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        // 判断是否存在
+        Long id = idRequest.getId();
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //判断接口释放能够调用
+        com.madou.geapiclientsdk.model.User user = new com.madou.geapiclientsdk.model.User();
+        user.setUserName("madou");
+        String userNameByPost = geapiClient.getUserNameByPost(user);
+        if (StringUtils.isBlank(userNameByPost)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"接口验证失败");
+        }
+        //更新数据 上线
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 下线接口(管理员可用)
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @AuthCheck(mustRole = "admin")
+    @PostMapping("/offline")
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                      HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        // 判断是否存在
+        Long id = idRequest.getId();
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //更新数据 下线
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
     // endregion
 
 }

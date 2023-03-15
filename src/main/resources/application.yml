@@ -87,3 +87,7 @@ cos:
     secretKey: xxx
     region: xxx
     bucket: xxx
+geapi:
+  client:
+    access-key: madou
+    secret-key: madou123
