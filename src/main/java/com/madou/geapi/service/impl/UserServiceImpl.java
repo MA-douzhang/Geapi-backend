@@ -1,30 +1,32 @@
 package com.madou.geapi.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.constant.CommonConstant;
 import com.madou.geapi.constant.UserConstant;
 import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.mapper.UserMapper;
-import com.madou.geapi.model.vo.LoginUserVO;
-import com.madou.geapi.model.vo.UserVO;
-import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.model.dto.user.UserQueryRequest;
 import com.madou.geapi.model.entity.User;
 import com.madou.geapi.model.enums.UserRoleEnum;
+import com.madou.geapi.model.vo.LoginUserVO;
+import com.madou.geapi.model.vo.UserVO;
 import com.madou.geapi.service.UserService;
 import com.madou.geapi.utils.SqlUtils;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户服务实现
@@ -39,7 +41,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 盐值，混淆密码
      */
-    private static final String SALT = "yupi";
+    private static final String SALT = "madou";
 
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
@@ -67,10 +69,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
             // 2. 加密
             String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
+            // 3. 分配密钥
+            String accessKey = DigestUtils.md5DigestAsHex((SALT+userAccount + RandomUtil.randomNumbers(5)).getBytes());
+            String secretKey = DigestUtils.md5DigestAsHex((SALT+userAccount + RandomUtil.randomNumbers(8)).getBytes());
             // 3. 插入数据
             User user = new User();
             user.setUserAccount(userAccount);
             user.setUserPassword(encryptPassword);
+            user.setAccessKey(accessKey);
+            user.setSecretKey(secretKey);
             boolean saveResult = this.save(user);
             if (!saveResult) {
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");

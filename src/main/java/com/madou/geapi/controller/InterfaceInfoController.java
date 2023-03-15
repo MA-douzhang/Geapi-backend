@@ -3,11 +3,13 @@ package com.madou.geapi.controller;
 import com.alibaba.excel.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
 import com.madou.geapi.annotation.AuthCheck;
 import com.madou.geapi.common.*;
 import com.madou.geapi.constant.CommonConstant;
 import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoAddRequest;
+import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.madou.geapi.model.entity.InterfaceInfo;
@@ -265,4 +267,38 @@ public class InterfaceInfoController {
     }
     // endregion
 
+    /**
+     * 接口调用
+     *
+     * @param interfaceInfoInvokeRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/invoke")
+    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
+                                                      HttpServletRequest request) {
+        if (interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Long id = interfaceInfoInvokeRequest.getId();
+        String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
+        // 判断是否存在
+
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //判断接口状态
+        if (oldInterfaceInfo.getStatus() != InterfaceInfoStatusEnum.ONLINE.getValue()){
+            throw new BusinessException(ErrorCode.FORBIDDEN_ERROR,"接口已关闭");
+        }
+        User loginUser = userService.getLoginUser(request);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+        GeapiClient geapiClient1 = new GeapiClient(accessKey,secretKey);
+        Gson gson = new Gson();
+        com.madou.geapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.madou.geapiclientsdk.model.User.class);
+        String userNameByPost = geapiClient1.getUserNameByPost(user);
+        return ResultUtils.success(userNameByPost);
+    }
 }

@@ -1,0 +1,8 @@
+server:
+  port: 8123
+  servlet:
+    context-path: /api
+geapi:
+  client:
+    access-key: madou
+    secret-key: madou123
