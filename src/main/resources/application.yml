@@ -1,6 +1,6 @@
 spring:
   application:
-    name: springboot-init
+    name: Geapi-backend
   # 默认 dev 环境
   profiles:
     active: dev
@@ -18,7 +18,7 @@ spring:
   # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/my_db
+    url: jdbc:mysql://localhost:3306/ge_api
     username: root
     password: 123456
   # Redis 配置
@@ -42,7 +42,7 @@ spring:
       max-file-size: 10MB
 server:
   address: 0.0.0.0
-  port: 8101
+  port: 9092
   servlet:
     context-path: /api
     # cookie 30 天过期
