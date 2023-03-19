@@ -1,20 +1,16 @@
 package com.madou.geapi.controller;
 
 import cn.hutool.core.io.FileUtil;
-import com.madou.geapi.constant.FileConstant;
-import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.common.BaseResponse;
 import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.common.ResultUtils;
+import com.madou.geapi.constant.FileConstant;
+import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.manager.CosManager;
 import com.madou.geapi.model.dto.file.UploadFileRequest;
-import com.madou.geapi.model.entity.User;
 import com.madou.geapi.model.enums.FileUploadBizEnum;
 import com.madou.geapi.service.UserService;
-import java.io.File;
-import java.util.Arrays;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import com.madou.geapicommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.Arrays;
 
 /**
  * 文件接口

@@ -1,7 +1,9 @@
 package com.madou.geapi.mapper;
 
-import com.madou.geapi.model.entity.UserInterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.madou.geapicommon.model.entity.UserInterfaceInfo;
+
+import java.util.List;
 
 /**
 * @author MA_dou
@@ -11,6 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
 
+    List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit);
 }
 
 

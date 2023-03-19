@@ -2,18 +2,19 @@ package com.madou.geapi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.mapper.PostThumbMapper;
-import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.model.entity.Post;
 import com.madou.geapi.model.entity.PostThumb;
-import com.madou.geapi.model.entity.User;
 import com.madou.geapi.service.PostService;
 import com.madou.geapi.service.PostThumbService;
-import javax.annotation.Resource;
+import com.madou.geapicommon.model.entity.User;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子点赞服务实现

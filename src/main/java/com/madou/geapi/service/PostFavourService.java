@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.madou.geapi.model.entity.Post;
 import com.madou.geapi.model.entity.PostFavour;
-import com.madou.geapi.model.entity.User;
+import com.madou.geapicommon.model.entity.User;
 
 /**
  * 帖子收藏服务

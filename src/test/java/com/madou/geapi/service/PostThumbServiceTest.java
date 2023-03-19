@@ -1,11 +1,12 @@
 package com.madou.geapi.service;
 
-import com.madou.geapi.model.entity.User;
-import javax.annotation.Resource;
+import com.madou.geapicommon.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子点赞服务测试

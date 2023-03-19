@@ -5,18 +5,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.common.ErrorCode;
+import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.mapper.PostFavourMapper;
 import com.madou.geapi.model.entity.Post;
 import com.madou.geapi.model.entity.PostFavour;
-import com.madou.geapi.model.entity.User;
 import com.madou.geapi.service.PostFavourService;
 import com.madou.geapi.service.PostService;
-import javax.annotation.Resource;
+import com.madou.geapicommon.model.entity.User;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子收藏服务实现

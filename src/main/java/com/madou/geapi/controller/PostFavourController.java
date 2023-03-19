@@ -1,27 +1,28 @@
 package com.madou.geapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.madou.geapi.exception.BusinessException;
-import com.madou.geapi.exception.ThrowUtils;
-import com.madou.geapi.model.vo.PostVO;
 import com.madou.geapi.common.BaseResponse;
 import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.common.ResultUtils;
+import com.madou.geapi.exception.BusinessException;
+import com.madou.geapi.exception.ThrowUtils;
 import com.madou.geapi.model.dto.post.PostQueryRequest;
 import com.madou.geapi.model.dto.postfavour.PostFavourAddRequest;
 import com.madou.geapi.model.dto.postfavour.PostFavourQueryRequest;
 import com.madou.geapi.model.entity.Post;
-import com.madou.geapi.model.entity.User;
+import com.madou.geapi.model.vo.PostVO;
 import com.madou.geapi.service.PostFavourService;
 import com.madou.geapi.service.PostService;
 import com.madou.geapi.service.UserService;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import com.madou.geapicommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 帖子收藏接口

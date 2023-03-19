@@ -1,8 +1,8 @@
 package com.madou.geapi.service;
 
-import com.madou.geapi.model.entity.PostThumb;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.madou.geapi.model.entity.User;
+import com.madou.geapi.model.entity.PostThumb;
+import com.madou.geapicommon.model.entity.User;
 
 /**
  * 帖子点赞服务

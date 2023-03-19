@@ -23,6 +23,18 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo -->
+        <!--        公共服务-->
+        <dependency>
+            <groupId>com.madou</groupId>
+            <artifactId>Geapi-common</artifactId>
+            <version>0.01</version>
+        </dependency>
+        <!--       SDK 接口的依赖包-->
+        <dependency>
+            <groupId>com.madou</groupId>
+            <artifactId>Geapi-client-sdk</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>

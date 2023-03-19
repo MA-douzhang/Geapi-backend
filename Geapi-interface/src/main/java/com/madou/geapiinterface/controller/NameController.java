@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 public class NameController {
 
     @GetMapping("/get")
-    public String getNameByGet(String name){
-        return "GET 名字" + name;
+    public String getNameByGet(@RequestBody User user){
+        return "GET 名字" + user.getUserName();
     }
     @PostMapping("/post")
-    public String getNameByPost(@RequestParam String name){
-        return "POST 名字" + name;
+    public String getNameByPost(@RequestBody User user){
+        return "POST 名字" + user.getUserName();
     }
     @PostMapping("/user")
     public String getUserNameByGet(@RequestBody User user, HttpServletRequest request){

@@ -1,7 +1,7 @@
 package com.madou.geapi.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.madou.geapi.model.entity.User;
+import com.madou.geapicommon.model.entity.User;
 
 /**
  * 用户数据库操作

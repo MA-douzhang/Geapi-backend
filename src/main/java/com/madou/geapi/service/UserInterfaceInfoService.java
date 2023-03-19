@@ -1,7 +1,8 @@
 package com.madou.geapi.service;
 
-import com.madou.geapi.model.entity.UserInterfaceInfo;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.madou.geapicommon.model.entity.UserInterfaceInfo;
 
 /**
 * @author MA_dou

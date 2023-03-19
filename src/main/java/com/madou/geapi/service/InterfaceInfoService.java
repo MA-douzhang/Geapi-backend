@@ -1,7 +1,7 @@
 package com.madou.geapi.service;
 
-import com.madou.geapi.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.madou.geapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author MA_dou
@@ -12,4 +12,6 @@ public interface InterfaceInfoService extends IService<InterfaceInfo> {
 
 
     void validInterfaceInfo(InterfaceInfo interfaceInfo, boolean add);
+
+
 }

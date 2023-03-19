@@ -17,7 +17,7 @@ class GeapiInterfaceApplicationTests {
     void contextLoads() {
         User user = new User();
         user.setUserName("madou");
-        String madouGet = geapiClient.getNameByGet("madouGet");
+        String madouGet = geapiClient.getNameByGet(user);
         String userNameByPost = geapiClient.getUserNameByPost(user);
         System.out.println(madouGet);
         System.out.println(userNameByPost);

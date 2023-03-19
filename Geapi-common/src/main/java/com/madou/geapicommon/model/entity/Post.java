@@ -1,4 +1,4 @@
-package com.madou.geapi.model.entity;
+package com.madou.geapicommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
@@ -7,14 +7,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户
+ * 帖子
  *
  * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
-@TableName(value = "user")
+@TableName(value = "post")
 @Data
-public class User implements Serializable {
+public class Post implements Serializable {
 
     /**
      * id
@@ -23,54 +23,34 @@ public class User implements Serializable {
     private Long id;
 
     /**
-     * 用户账号
+     * 标题
      */
-    private String userAccount;
+    private String title;
 
     /**
-     * 用户密码
+     * 内容
      */
-    private String userPassword;
+    private String content;
 
     /**
-     * 开放平台id
+     * 标签列表 json
      */
-    private String unionId;
+    private String tags;
 
     /**
-     * 公众号openId
+     * 点赞数
      */
-    private String mpOpenId;
+    private Integer thumbNum;
 
     /**
-     * 用户昵称
+     * 收藏数
      */
-    private String userName;
+    private Integer favourNum;
 
     /**
-     * 用户头像
+     * 创建用户 id
      */
-    private String userAvatar;
-
-    /**
-     * 用户简介
-     */
-    private String userProfile;
-
-    /**
-     * 用户角色：user/admin/ban
-     */
-    private String userRole;
-
-    /**
-     * accessKey
-     */
-    private String accessKey;
-
-    /**
-     * 密钥
-     */
-    private String secretKey;
+    private Long userId;
 
     /**
      * 创建时间

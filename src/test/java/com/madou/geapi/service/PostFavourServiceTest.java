@@ -3,12 +3,13 @@ package com.madou.geapi.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.madou.geapi.model.entity.Post;
-import com.madou.geapi.model.entity.User;
-import javax.annotation.Resource;
+import com.madou.geapicommon.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子收藏服务测试

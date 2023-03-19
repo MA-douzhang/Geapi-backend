@@ -16,8 +16,11 @@
  */
 package com.madou.geapi.provider;
 
+import org.apache.dubbo.config.annotation.DubboService;
+
 import java.util.concurrent.CompletableFuture;
 
+@DubboService
 public interface DemoService {
 
     String sayHello(String name);

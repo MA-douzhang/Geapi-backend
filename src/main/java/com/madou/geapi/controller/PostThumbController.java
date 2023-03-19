@@ -1,20 +1,21 @@
 package com.madou.geapi.controller;
 
-import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.common.BaseResponse;
 import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.common.ResultUtils;
+import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.model.dto.postthumb.PostThumbAddRequest;
-import com.madou.geapi.model.entity.User;
 import com.madou.geapi.service.PostThumbService;
 import com.madou.geapi.service.UserService;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import com.madou.geapicommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 帖子点赞接口

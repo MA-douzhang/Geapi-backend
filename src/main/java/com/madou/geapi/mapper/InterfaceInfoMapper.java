@@ -1,7 +1,7 @@
 package com.madou.geapi.mapper;
 
-import com.madou.geapi.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.madou.geapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author MA_dou

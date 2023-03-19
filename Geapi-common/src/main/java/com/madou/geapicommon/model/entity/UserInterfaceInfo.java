@@ -1,10 +1,10 @@
-package com.madou.geapi.model.entity;
+package com.madou.geapicommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 用户调用接口关系

@@ -12,18 +12,20 @@ import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoAddRequest;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
-import com.madou.geapi.model.entity.InterfaceInfo;
-import com.madou.geapi.model.entity.User;
 import com.madou.geapi.model.enums.InterfaceInfoStatusEnum;
 import com.madou.geapi.service.InterfaceInfoService;
 import com.madou.geapi.service.UserService;
 import com.madou.geapiclientsdk.client.GeapiClient;
+import com.madou.geapicommon.model.entity.InterfaceInfo;
+import com.madou.geapicommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -285,6 +287,9 @@ public class InterfaceInfoController {
         // 判断是否存在
 
         InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        //数据库中找到请求方法
+        String method = oldInterfaceInfo.getMethod();
+        String interfaceInfoName = oldInterfaceInfo.getName();
         if (oldInterfaceInfo == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
@@ -295,10 +300,41 @@ public class InterfaceInfoController {
         User loginUser = userService.getLoginUser(request);
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
-        GeapiClient geapiClient1 = new GeapiClient(accessKey,secretKey);
-        Gson gson = new Gson();
-        com.madou.geapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.madou.geapiclientsdk.model.User.class);
-        String userNameByPost = geapiClient1.getUserNameByPost(user);
-        return ResultUtils.success(userNameByPost);
+        Object result = reflectionInterface(GeapiClient.class, interfaceInfoName, userRequestParams, accessKey, secretKey);
+//        //获取登录用户的密钥
+//        GeapiClient geapiClient1 = new GeapiClient(accessKey,secretKey);
+//        Gson gson = new Gson();
+//        com.madou.geapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.madou.geapiclientsdk.model.User.class);
+//        //在发送个网关时，会将发送内容和密钥ak进行加密，与网关中查询数据库中的ak与内容加密，判断是否相同，进行加密
+//        String userNameByPost = geapiClient1.getUserNameByPost(user);
+        return ResultUtils.success(result);
+    }
+    public Object reflectionInterface(Class<?> reflectionClass, String methodName, String parameter, String accessKey, String secretKey) {
+        //构造反射类的实例
+        Object result = null;
+        try {
+            Constructor<?> constructor = reflectionClass.getDeclaredConstructor(String.class, String.class);
+            //获取SDK的实例，同时传入密钥
+            GeapiClient geapiClient = (GeapiClient) constructor.newInstance(accessKey, secretKey);
+            //获取SDK中所有的方法
+            Method[] methods = geapiClient.getClass().getMethods();
+            //筛选出调用方法
+            for (Method method : methods
+            ) {
+                if (method.getName().equals(methodName)) {
+                    //获取方法参数类型
+                    Class<?>[] parameterTypes = method.getParameterTypes();
+                    //getMethod，多参会考虑重载情况获取方法,前端传来参数是JSON格式转换为String类型
+                    Method method1 = geapiClient.getClass().getMethod(methodName, parameterTypes[0]);
+                    //参数Josn化
+                    Gson gson = new Gson();
+                    Object args = gson.fromJson(parameter, parameterTypes[0]);
+                    return result = method1.invoke(geapiClient, args);
+                }
+            }
+        } catch (Exception e) {
+            log.error("反射调用参数错误",e);
+        }
+        return result;
     }
 }

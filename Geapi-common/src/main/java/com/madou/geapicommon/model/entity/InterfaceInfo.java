@@ -1,4 +1,4 @@
-package com.madou.geapi.model.entity;
+package com.madou.geapicommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

@@ -87,10 +87,10 @@ cos:
     secretKey: xxx
     region: xxx
     bucket: xxx
-geapi:
-  client:
-    access-key: madou
-    secret-key: madou123
+#geapi:
+#  client:
+#    access-key: 2988f0580601b87d0e1c42663e7de6b4
+#    secret-key: fd45233ba0ec42aca7b013312c885788
 dubbo:
   application:
     name: dubbo-springboot-demo-provider

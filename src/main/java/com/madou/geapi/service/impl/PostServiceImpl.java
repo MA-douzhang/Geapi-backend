@@ -4,12 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
-import com.madou.geapi.exception.BusinessException;
-import com.madou.geapi.exception.ThrowUtils;
-import com.madou.geapi.model.vo.PostVO;
-import com.madou.geapi.model.vo.UserVO;
 import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.constant.CommonConstant;
+import com.madou.geapi.exception.BusinessException;
+import com.madou.geapi.exception.ThrowUtils;
 import com.madou.geapi.mapper.PostFavourMapper;
 import com.madou.geapi.mapper.PostMapper;
 import com.madou.geapi.mapper.PostThumbMapper;
@@ -18,18 +16,12 @@ import com.madou.geapi.model.dto.post.PostQueryRequest;
 import com.madou.geapi.model.entity.Post;
 import com.madou.geapi.model.entity.PostFavour;
 import com.madou.geapi.model.entity.PostThumb;
-import com.madou.geapi.model.entity.User;
+import com.madou.geapi.model.vo.PostVO;
+import com.madou.geapi.model.vo.UserVO;
 import com.madou.geapi.service.PostService;
 import com.madou.geapi.service.UserService;
 import com.madou.geapi.utils.SqlUtils;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import com.madou.geapicommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -46,6 +38,11 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 帖子服务实现

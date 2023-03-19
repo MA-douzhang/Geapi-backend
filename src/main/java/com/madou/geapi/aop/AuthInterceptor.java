@@ -3,11 +3,9 @@ package com.madou.geapi.aop;
 import com.madou.geapi.annotation.AuthCheck;
 import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.exception.BusinessException;
-import com.madou.geapi.model.entity.User;
 import com.madou.geapi.model.enums.UserRoleEnum;
 import com.madou.geapi.service.UserService;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import com.madou.geapicommon.model.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,6 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 权限校验 AOP

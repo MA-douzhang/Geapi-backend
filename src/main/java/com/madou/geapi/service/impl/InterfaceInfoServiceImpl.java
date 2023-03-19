@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.madou.geapi.common.ErrorCode;
 import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.mapper.InterfaceInfoMapper;
-import com.madou.geapi.model.entity.InterfaceInfo;
 import com.madou.geapi.service.InterfaceInfoService;
+import com.madou.geapicommon.model.entity.InterfaceInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
