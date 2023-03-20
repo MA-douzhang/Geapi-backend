@@ -121,10 +121,15 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         if (interfaceInfo == null){
             return handleNoAuth(response);
         }
-        // todo 是否还有调用次数
-        // 5. 请求转发，调用模拟接口 + 响应日志
-        //        Mono<Void> filter = chain.filter(exchange);
-        //        return filter;
+        //查询接口id和用户id
+        Long interfaceInfoId = interfaceInfo.getId();
+        Long invokeUserId = invokeUser.getId();
+        // 是否还有调用次数
+        boolean hasLeftNum = innerUserInterfaceInfoService.invokeLeftNum(interfaceInfoId, invokeUserId);
+        //没有次数抛出依次
+        if (!hasLeftNum){
+            return handleNoAuth(response);
+        }
         return handleResponse(exchange, chain, interfaceInfo.getId(), invokeUser.getId());
 
     }

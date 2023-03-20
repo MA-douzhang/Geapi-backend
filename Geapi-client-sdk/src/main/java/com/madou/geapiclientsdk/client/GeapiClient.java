@@ -5,6 +5,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.madou.geapiclientsdk.model.LoveWords;
 import com.madou.geapiclientsdk.model.User;
 import com.madou.geapiclientsdk.utils.SignUtils;
 
@@ -28,7 +29,7 @@ public class GeapiClient {
     public String getNameByGet(User user){
         String json = JSONUtil.toJsonStr(user);
         //可以单独传入http参数，这样参数会自动做URL编码，拼接在URL中
-        HttpResponse httpResponse= HttpRequest.get(GATEWAY_HOST+"/api/name/get")
+        HttpResponse httpResponse= HttpRequest.get(GATEWAY_HOST+"/api/get")
                 .addHeaders(getHeaderMap(json))
                 .body(json)
                 .execute();
@@ -38,7 +39,7 @@ public class GeapiClient {
     public String getNameByPost(User user){
         //该方法加了@RequestParam接收JSON
         String json = JSONUtil.toJsonStr(user);
-        HttpResponse httpResponse= HttpRequest.post(GATEWAY_HOST+"/api/name/post")
+        HttpResponse httpResponse= HttpRequest.post(GATEWAY_HOST+"/api/post")
                 .addHeaders(getHeaderMap(json))
                 .body(json)
                 .execute();
@@ -48,13 +49,24 @@ public class GeapiClient {
     //模拟接口
     public String getUserNameByPost(User user) {
         String json = JSONUtil.toJsonStr(user);
-        HttpResponse httpResponse = HttpRequest.post(GATEWAY_HOST + "/api/name/user")
+        HttpResponse httpResponse = HttpRequest.post(GATEWAY_HOST + "/api/user")
                 .addHeaders(getHeaderMap(json))
                 .body(json)
                 .execute();
         System.out.println(httpResponse.getStatus());
         String result = httpResponse.body();
         System.out.println(result);
+        return result;
+    }
+
+    //随机情话接口
+    public String getLoveWordsGet(LoveWords loveWords) {
+        String json = JSONUtil.toJsonStr(loveWords);
+        HttpResponse httpResponse = HttpRequest.get(GATEWAY_HOST + "/api/lovewords")
+                .addHeaders(getHeaderMap(json))
+                .body(json)
+                .execute();
+        String result = httpResponse.body();
         return result;
     }
 

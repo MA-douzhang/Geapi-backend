@@ -17,4 +17,12 @@ public interface InnerUserInterfaceInfoService {
      * @return
      */
     boolean invokeCount(long interfaceInfoId, long userId);
+
+    /**
+     * 调用接口剩余次数，小于等于0次就返回false，大于0返回true
+     * @param interfaceInfoId
+     * @param userId
+     * @return
+     */
+    boolean invokeLeftNum(long interfaceInfoId, long userId);
 }

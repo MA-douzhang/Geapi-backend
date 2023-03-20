@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.madou.geapiinterface.mapper.LoveWordsMapper">
+
+    <resultMap id="BaseResultMap" type="com.madou.geapiinterface.model.entity.LoveWords">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="loveWord" column="loveWord" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,loveWord
+    </sql>
+    <select id="getRandomLoveWords" resultType="java.lang.String">
+        select loveWord
+        from love_words
+        ORDER BY RAND() LIMIT 1;
+    </select>
+</mapper>

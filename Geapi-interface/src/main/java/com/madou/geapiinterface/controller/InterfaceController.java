@@ -1,14 +1,20 @@
 package com.madou.geapiinterface.controller;
 
+import com.madou.geapiclientsdk.model.LoveWords;
 import com.madou.geapiclientsdk.model.User;
-import com.madou.geapiclientsdk.utils.SignUtils;
+
+import com.madou.geapiinterface.mapper.LoveWordsMapper;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/name")
-public class NameController {
+@RequestMapping("/")
+public class InterfaceController {
+
+    @Resource
+    private LoveWordsMapper loveWordsMapper;
 
     @GetMapping("/get")
     public String getNameByGet(@RequestBody User user){
@@ -40,5 +46,11 @@ public class NameController {
 //        }
         String result = "POST 用户名字是" + user.getUserName();
         return result;
+    }
+    @GetMapping("/lovewords")
+    public String getLoveWords(@RequestBody LoveWords loveWords){
+        //todo 根据type返回不同格式的数据
+        String loveWord = loveWordsMapper.getRandomLoveWords();
+        return loveWord;
     }
 }

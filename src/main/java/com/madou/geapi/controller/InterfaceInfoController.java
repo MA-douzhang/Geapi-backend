@@ -301,12 +301,10 @@ public class InterfaceInfoController {
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
         Object result = reflectionInterface(GeapiClient.class, interfaceInfoName, userRequestParams, accessKey, secretKey);
-//        //获取登录用户的密钥
-//        GeapiClient geapiClient1 = new GeapiClient(accessKey,secretKey);
-//        Gson gson = new Gson();
-//        com.madou.geapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.madou.geapiclientsdk.model.User.class);
-//        //在发送个网关时，会将发送内容和密钥ak进行加密，与网关中查询数据库中的ak与内容加密，判断是否相同，进行加密
-//        String userNameByPost = geapiClient1.getUserNameByPost(user);
+        //网关拦截对异常处理
+        if (result.equals(GateWayErrorCode.FORBIDDEN.getCode())){
+            throw new BusinessException(ErrorCode.FORBIDDEN_ERROR,"调用次数已用尽");
+        }
         return ResultUtils.success(result);
     }
     public Object reflectionInterface(Class<?> reflectionClass, String methodName, String parameter, String accessKey, String secretKey) {
