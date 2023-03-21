@@ -13,7 +13,20 @@ import java.util.List;
 */
 public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
 
+    /**
+     * 被调用最多的接口TOP5
+     * @param limit
+     * @return
+     */
     List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit);
+
+    /**
+     * 最活跃的TOP5用户
+     * @param limit
+     * @return
+     */
+    List<UserInterfaceInfo> listTopUserInvokeInterfaceInfo(int limit);
+
 }
 
 

@@ -8,8 +8,11 @@ import com.madou.geapi.common.ResultUtils;
 import com.madou.geapi.exception.BusinessException;
 import com.madou.geapi.mapper.UserInterfaceInfoMapper;
 import com.madou.geapi.model.vo.InterfaceInfoVO;
+import com.madou.geapi.model.vo.UserInterfaceVO;
 import com.madou.geapi.service.InterfaceInfoService;
+import com.madou.geapi.service.UserService;
 import com.madou.geapicommon.model.entity.InterfaceInfo;
+import com.madou.geapicommon.model.entity.User;
 import com.madou.geapicommon.model.entity.UserInterfaceInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -37,6 +40,13 @@ public class AnalysisController {
     @Resource
     private InterfaceInfoService interfaceInfoService;
 
+    @Resource
+    private UserService userService;
+
+    /**
+     * 接口被调用次数TOP5
+     * @return
+     */
     @GetMapping("/top/interface/invoke")
     @AuthCheck(mustRole = "admin")
     public BaseResponse<List<InterfaceInfoVO>> listTopInvokeInterfaceInfo() {
@@ -55,6 +65,34 @@ public class AnalysisController {
             int totalNum = interfaceInfoIdObjMap.get(interfaceInfo.getId()).get(0).getTotalNum();
             interfaceInfoVO.setTotalNum(totalNum);
             return interfaceInfoVO;
+        }).collect(Collectors.toList());
+        return ResultUtils.success(interfaceInfoVOList);
+    }
+
+    /**
+     * 最活跃的用户TOP5
+     * @return
+     */
+    @GetMapping("/top/interface/user")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<List<UserInterfaceVO>> listTopUserInvokeInterfaceInfo() {
+        List<UserInterfaceInfo> userInterfaceInfoList = userInterfaceInfoMapper.listTopUserInvokeInterfaceInfo(5);
+        Map<Long, List<UserInterfaceInfo>> userIdObjMap = userInterfaceInfoList.stream()
+                .collect(Collectors.groupingBy(UserInterfaceInfo::getUserId));
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("id", userIdObjMap.keySet());
+        List<User> list = userService.list(queryWrapper);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
+        }
+        //list为userId的信息
+        //todo 只需返回用户信息即可
+        List<UserInterfaceVO> interfaceInfoVOList = list.stream().map(user -> {
+            UserInterfaceVO userVO = new UserInterfaceVO();
+            BeanUtils.copyProperties(user, userVO);
+            int totalNum = userIdObjMap.get(user.getId()).get(0).getTotalNum();
+            userVO.setTotalNum(totalNum);
+            return userVO;
         }).collect(Collectors.toList());
         return ResultUtils.success(interfaceInfoVOList);
     }

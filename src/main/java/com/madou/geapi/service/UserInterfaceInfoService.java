@@ -4,6 +4,8 @@ package com.madou.geapi.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.madou.geapicommon.model.entity.UserInterfaceInfo;
 
+import java.util.List;
+
 /**
 * @author MA_dou
 * @description 针对表【user_interface_info(用户调用接口关系)】的数据库操作Service
@@ -20,4 +22,11 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
      * @return
      */
     boolean invokeCount(long interfaceInfoId,long userId);
+
+    /**
+     * 查询调用次数最高的五个接口
+     * @param limit
+     * @return
+     */
+    List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit);
 }

@@ -9,6 +9,8 @@ import com.madou.geapi.service.UserInterfaceInfoService;
 import com.madou.geapicommon.model.entity.UserInterfaceInfo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author MA_dou
  * @description 针对表【user_interface_info(用户调用接口关系)】的数据库操作Service实现
@@ -59,6 +61,15 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
         updateWrapper.gt("leftNum",0);
         updateWrapper.setSql("leftNum = leftNum -1,totalNum = totalNum+1");
         return this.update(updateWrapper);
+    }
+
+    @Override
+    public List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit) {
+//        select interfaceInfoId, sum(totalNum) as totalNum
+//        from user_interface_info
+//        group by interfaceInfoId
+//        order by totalNum desc limit #{limit}
+       return null;
     }
 
 

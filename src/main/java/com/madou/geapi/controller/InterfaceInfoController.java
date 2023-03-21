@@ -147,6 +147,7 @@ public class InterfaceInfoController {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+        //todo 对interfaceInfo创建一个带剩余调用次数的类
         InterfaceInfo InterfaceInfo = interfaceInfoService.getById(id);
         return ResultUtils.success(InterfaceInfo);
     }
@@ -224,7 +225,7 @@ public class InterfaceInfoController {
         if (oldInterfaceInfo == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
-        //判断接口释放能够调用
+        //调用一个验证接口,判断接口能够调用
         com.madou.geapiclientsdk.model.User user = new com.madou.geapiclientsdk.model.User();
         user.setUserName("madou");
         String userNameByPost = geapiClient.getUserNameByPost(user);
