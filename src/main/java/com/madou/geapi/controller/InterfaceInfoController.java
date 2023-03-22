@@ -13,6 +13,7 @@ import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.madou.geapi.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.madou.geapi.model.enums.InterfaceInfoStatusEnum;
+import com.madou.geapi.model.vo.InterfaceInfoVO;
 import com.madou.geapi.service.InterfaceInfoService;
 import com.madou.geapi.service.UserService;
 import com.madou.geapiclientsdk.client.GeapiClient;
@@ -143,13 +144,14 @@ public class InterfaceInfoController {
      * @return
      */
     @GetMapping("/get")
-    public BaseResponse<InterfaceInfo> getInterfaceInfoById(long id) {
+    public BaseResponse<InterfaceInfoVO> getInterfaceInfoById(long id,HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         //todo 对interfaceInfo创建一个带剩余调用次数的类
-        InterfaceInfo InterfaceInfo = interfaceInfoService.getById(id);
-        return ResultUtils.success(InterfaceInfo);
+        User loginUser = userService.getLoginUser(request);
+        InterfaceInfoVO interfaceInfoVO = interfaceInfoService.getInterfaceInfoById(id,loginUser);
+        return ResultUtils.success(interfaceInfoVO);
     }
 
     /**
@@ -289,7 +291,6 @@ public class InterfaceInfoController {
 
         InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
         //数据库中找到请求方法
-        String method = oldInterfaceInfo.getMethod();
         String interfaceInfoName = oldInterfaceInfo.getName();
         if (oldInterfaceInfo == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
@@ -323,8 +324,13 @@ public class InterfaceInfoController {
                 if (method.getName().equals(methodName)) {
                     //获取方法参数类型
                     Class<?>[] parameterTypes = method.getParameterTypes();
+                    Method method1;
+                    if (parameterTypes.length == 0){
+                        method1 = geapiClient.getClass().getMethod(methodName);
+                        return method1.invoke(geapiClient);
+                    }
+                    method1 = geapiClient.getClass().getMethod(methodName, parameterTypes[0]);
                     //getMethod，多参会考虑重载情况获取方法,前端传来参数是JSON格式转换为String类型
-                    Method method1 = geapiClient.getClass().getMethod(methodName, parameterTypes[0]);
                     //参数Josn化
                     Gson gson = new Gson();
                     Object args = gson.fromJson(parameter, parameterTypes[0]);

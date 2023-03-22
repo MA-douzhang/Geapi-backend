@@ -69,12 +69,19 @@ public class GeapiClient {
         String result = httpResponse.body();
         return result;
     }
-
+    //随机返回抖音美女视频
+    public String getdyGirlGet() {
+        HttpResponse httpResponse = HttpRequest.get(GATEWAY_HOST + "/api/dygirl")
+                .addHeaders(getHeaderMap(""))
+                .body("")
+                .execute();
+        String result = httpResponse.body();
+        return result;
+    }
     //添加请求头，发送给网关校验用户的信息
     private Map<String, String> getHeaderMap(String body) {
         Map<String,String> map = new HashMap<>();
         map.put("accessKey",accessKey);
-
         //map.put("secretKey",secretKey);
         map.put("nonce", RandomUtil.randomNumbers(4));
         map.put("body",body);
