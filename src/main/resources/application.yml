@@ -24,9 +24,9 @@ spring:
   #服务器的配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.120.5.119:3306/ge_api
-    username: ge_api
-    password: 789159357Zj
+    url: jdbc:mysql://数据库地址:3306/ge_api
+    username:
+    password:
   # Redis 配置
   # todo 需替换配置，然后取消注释
 #  redis:
@@ -55,7 +55,7 @@ server:
     session:
       cookie:
         max-age: 2592000
-        domain: 47.120.5.119
+        domain: 服务器IP
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
@@ -78,7 +78,7 @@ wx:
       http-client-type: HttpClient
       key-prefix: wx
       redis:
-        host: 172.22.27.134
+        host: 服务器内网地址
         port: 6379
       type: Memory
   # 微信开放平台
@@ -100,7 +100,7 @@ cos:
 #    secret-key: fd45233ba0ec42aca7b013312c885788
 dubbo:
   registry:
-    address: nacos://172.22.27.134:8848
+    address: nacos://服务器内网地址:8848
   application:
     name: dubbo-springboot-demo-provider
   protocol:
