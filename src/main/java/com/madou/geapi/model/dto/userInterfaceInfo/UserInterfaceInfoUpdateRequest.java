@@ -18,9 +18,14 @@ public class UserInterfaceInfoUpdateRequest implements Serializable {
     private Long id;
 
     /**
-     * 总调用次数
+     * 接口 id
      */
-    private Integer totalNum;
+    private Long interfaceInfoId;
+
+    /**
+     * 调用用户 id
+     */
+    private Long userId;
 
     /**
      * 剩余调用次数

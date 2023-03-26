@@ -29,4 +29,19 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
      * @return
      */
     List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit);
+
+
+    /**
+     * 增加接口调用次数
+     *
+     * @param interfaceInfoId
+     * @param userId
+     * @param leftNum
+     * @return
+     */
+    boolean addInvokeTimes(long interfaceInfoId, long userId, int leftNum);
+
+
+
+
 }

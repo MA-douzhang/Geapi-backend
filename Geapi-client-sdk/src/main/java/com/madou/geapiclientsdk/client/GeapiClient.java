@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class GeapiClient {
 
-    private static final String GATEWAY_HOST = "http://localhost:8091";
+    private static final String GATEWAY_HOST = "http://47.120.5.119:8091";
 
     private String accessKey;
     private String secretKey;
@@ -78,6 +78,17 @@ public class GeapiClient {
         String result = httpResponse.body();
         return result;
     }
+
+    //随机返回爬虫美女视频
+    public String getpcGirlGet() {
+        HttpResponse httpResponse = HttpRequest.get(GATEWAY_HOST + "/api/pcgirl")
+                .addHeaders(getHeaderMap(""))
+                .body("")
+                .execute();
+        String result = httpResponse.body();
+        return result;
+    }
+
     //添加请求头，发送给网关校验用户的信息
     private Map<String, String> getHeaderMap(String body) {
         Map<String,String> map = new HashMap<>();

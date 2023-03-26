@@ -10,6 +10,6 @@ geapi:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/interface_api
-    username: root
-    password: 123456
+    url: jdbc:mysql://47.120.5.119:3306/interface_api
+    username: ge_api1
+    password: 789159357Zj

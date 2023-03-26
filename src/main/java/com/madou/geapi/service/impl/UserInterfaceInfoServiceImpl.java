@@ -1,5 +1,6 @@
 package com.madou.geapi.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.madou.geapi.common.ErrorCode;
@@ -70,6 +71,25 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
 //        group by interfaceInfoId
 //        order by totalNum desc limit #{limit}
        return null;
+    }
+
+    @Override
+    public boolean addInvokeTimes(long interfaceInfoId, long userId, int leftNum) {
+
+        //查询接口信息
+        QueryWrapper<UserInterfaceInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("userId",userId);
+        queryWrapper.eq("interfaceInfoId",interfaceInfoId);
+        UserInterfaceInfo oldUserInterfaceInfo = this.getOne(queryWrapper);
+        if (oldUserInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //查询剩余调用次数
+        int oldLeftNum = oldUserInterfaceInfo.getLeftNum();
+        leftNum+=oldLeftNum;
+        //在原调用次数上增加调用次数
+        oldUserInterfaceInfo.setLeftNum(leftNum);
+        return this.updateById(oldUserInterfaceInfo);
     }
 
 

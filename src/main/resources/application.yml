@@ -16,11 +16,17 @@ spring:
     timeout: 2592000
   # 数据库配置
   # todo 需替换配置
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/ge_api
+#    username: root
+#    password: 123456
+  #服务器的配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ge_api
-    username: root
-    password: 123456
+    url: jdbc:mysql://47.120.5.119:3306/ge_api
+    username: ge_api
+    password: 789159357Zj
   # Redis 配置
   # todo 需替换配置，然后取消注释
 #  redis:
@@ -49,6 +55,7 @@ server:
     session:
       cookie:
         max-age: 2592000
+        domain: 47.120.5.119
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
@@ -71,7 +78,7 @@ wx:
       http-client-type: HttpClient
       key-prefix: wx
       redis:
-        host: 127.0.0.1
+        host: 172.22.27.134
         port: 6379
       type: Memory
   # 微信开放平台
@@ -92,12 +99,12 @@ cos:
 #    access-key: 2988f0580601b87d0e1c42663e7de6b4
 #    secret-key: fd45233ba0ec42aca7b013312c885788
 dubbo:
+  registry:
+    address: nacos://172.22.27.134:8848
   application:
     name: dubbo-springboot-demo-provider
   protocol:
     name: dubbo
-    port: -1
-  registry:
-    id: nacos-registry
-    address: nacos://localhost:8848
+    port: 20880
+
 

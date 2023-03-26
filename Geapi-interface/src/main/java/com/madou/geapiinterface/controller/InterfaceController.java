@@ -30,24 +30,6 @@ public class InterfaceController {
     }
     @PostMapping("/user")
     public String getUserNameByGet(@RequestBody User user, HttpServletRequest request){
-//        String accessKey = request.getHeader("accessKey");
-//        String nonce = request.getHeader("nonce");
-//        String timestamp = request.getHeader("timestamp");
-//        String sign = request.getHeader("sign");
-//        String body = request.getHeader("body");
-//        if (!accessKey.equals("madou")){
-//            throw new RuntimeException("无权限");
-//        }
-//        if (Long.parseLong(nonce)>10000){
-//            throw new RuntimeException("无权限");
-//        }
-//        //todo 时间和当前时间不能过五分钟
-//
-//        //配合Sdk中的密钥配置，形成加密 查询数据库中的密钥
-//        String serverSign = SignUtils.getSign(body, "madou123");
-//        if (!sign.equals(serverSign)){
-//            throw new RuntimeException("无权限");
-//        }
         String result = "POST 用户名字是" + user.getUserName();
         return result;
     }
@@ -70,5 +52,14 @@ public class InterfaceController {
         return httpResponse1.body();
     }
 
+    @GetMapping("/pcgirl")
+    public String getpcGirlGet(){
+        Map<String,String> map= new HashMap<>();
+        map.put("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.44");
+        HttpResponse httpResponse = HttpRequest.get("https://v.api.aa1.cn/api/api-dy-girl/index.php?aa1=json")
+                .addHeaders(map)
+                .execute();
+        return httpResponse.body();
+    }
 
 }

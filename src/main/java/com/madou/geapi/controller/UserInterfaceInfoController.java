@@ -134,6 +134,33 @@ public class UserInterfaceInfoController {
         return ResultUtils.success(result);
     }
 
+
+    /**
+     * 增加接口调用次数
+     * 在接口原的次数上增加调用次数
+     * @param userInterfaceInfoUpdateRequest
+     * @param request
+     * @return
+     */
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    @PostMapping("/updatetimes")
+    public BaseResponse<Boolean> updateUserInterfaceInfoCount(@RequestBody UserInterfaceInfoUpdateRequest userInterfaceInfoUpdateRequest,
+                                                         HttpServletRequest request) {
+        if (userInterfaceInfoUpdateRequest == null || userInterfaceInfoUpdateRequest.getInterfaceInfoId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        UserInterfaceInfo userInterfaceInfo = new UserInterfaceInfo();
+        BeanUtils.copyProperties(userInterfaceInfoUpdateRequest, userInterfaceInfo);
+        // 参数校验
+        userInterfaceInfoService.validUserInterfaceInfo(userInterfaceInfo, false);
+        // 仅本人或管理员可修改
+        if (!userService.isAdmin(request)) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+        }
+        boolean result = userInterfaceInfoService.addInvokeTimes(userInterfaceInfo.getInterfaceInfoId(), userInterfaceInfo.getUserId(),userInterfaceInfo.getLeftNum());
+        return ResultUtils.success(result);
+    }
+
     /**
      * 根据 id 获取
      *

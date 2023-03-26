@@ -45,11 +45,10 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
     private InnerUserInterfaceInfoService innerUserInterfaceInfoService;
 
 
-    private static final List<String> IP_WHITE_LIST = Arrays.asList("127.0.0.1");
 
     //接收到接口请求并校验用户信息后调用模拟接口
     //todo 接口应该从数据库中获得，或者从发送请求中获得
-    private static final String INTERFACE_HOST = "http://localhost:8123";
+    private static final String INTERFACE_HOST = "http://47.120.5.119:8123";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -68,12 +67,6 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
 
 
-        //2,设置白名单
-        if (!IP_WHITE_LIST.contains(sourceAddress)) {
-            response = exchange.getResponse();
-            response.setStatusCode(HttpStatus.FORBIDDEN);
-            return response.setComplete();
-        }
         //3,用户鉴权（判断sk，ak是否合法）
         HttpHeaders headers = request.getHeaders();
         String accessKey = headers.getFirst("accessKey");
